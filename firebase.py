@@ -5,6 +5,7 @@ import requests
 import os.path
 import json
 import sys
+from datetime import datetime
 
 def args():
     parser = ArgumentParser()
@@ -43,13 +44,15 @@ def worker(url):
     Main function in charge of the bulk of the crawling, it assess a status to
     each DB depending on the response.
     '''
-    #Asleep(0.2) #a bit of delay to not abuse in excess the servers
+    sleep(0.2) #a bit of delay to not abuse in excess the servers
     try:
         r = requests.get(url).json()
     except requests.exceptions.RequestException as e:
         print(e)
     
     try:
+        now = datetime.now()
+        print(now.strftime("%H:%M:%S "), "URL: ", url)
         if 'error' in r.keys():
             if r['error'] == 'Permission denied' and not args_.just_v:
                 # print("Protected: {}".format(url))
