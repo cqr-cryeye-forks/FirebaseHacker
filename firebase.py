@@ -31,7 +31,6 @@ async def async_get(client: aiohttp.ClientSession, url):
             data = await response.json()
             if data:
                 return {
-                    'status': 1,
                     'url': url
                 }
     except Exception as e:
