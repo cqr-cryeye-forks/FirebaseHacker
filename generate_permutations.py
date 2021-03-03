@@ -32,7 +32,7 @@ def generate_bucket_permutations(keyword):
                     continue
                 buckets.add(generated_string)
                 
-    with open(list_file_path, 'a') as f:
+    with open(LIST_FILE_PATH, 'a') as f:
         for line in buckets:
             f.write(line + '\n')
             
