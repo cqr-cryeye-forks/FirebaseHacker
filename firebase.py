@@ -32,8 +32,7 @@ async def async_get(client: aiohttp.ClientSession, url):
             if data:
                 return {
                     'status': 1,
-                    'url': url,
-                    'data': data
+                    'url': url
                 }
     except Exception as e:
         if not isinstance(e, AssertionError):
