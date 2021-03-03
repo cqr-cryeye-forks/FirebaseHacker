@@ -15,7 +15,7 @@ def generate_bucket_permutations(keyword):
         '{keyword}{permutation}',
         '{permutation}{keyword}'
     ]
-    with open('./permutations.txt', 'r') as f:
+    with open('permutations.txt', 'r') as f:
         buckets = {f'{keyword}', f'{keyword}.com', f'{keyword}.net', f'{keyword}.org', }
         for perm in f:
             perm = perm.rstrip()
