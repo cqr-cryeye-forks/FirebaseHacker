@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+import os
+
 import argparse
 
 parser = argparse.ArgumentParser(description='dns permutator')
