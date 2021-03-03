@@ -5,6 +5,10 @@ parser = argparse.ArgumentParser(description='dns permutator')
 parser.add_argument('word', type=str, help='word to permutate')
 args = parser.parse_args()
 
+WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
+PERMITATIONS_FILE_PATH = f'{WORKING_DIR}/permutations.txt'
+LIST_FILE_PATH = f'{WORKING_DIR}/list.txt'
+
 
 def generate_bucket_permutations(keyword):
     permutation_templates = [
@@ -15,7 +19,7 @@ def generate_bucket_permutations(keyword):
         '{keyword}{permutation}',
         '{permutation}{keyword}'
     ]
-    with open('permutations.txt', 'r') as f:
+    with open(PERMITATIONS_FILE_PATH, 'r') as f:
         buckets = {f'{keyword}', f'{keyword}.com', f'{keyword}.net', f'{keyword}.org', }
         for perm in f:
             perm = perm.rstrip()
@@ -24,9 +28,11 @@ def generate_bucket_permutations(keyword):
                 if len(generated_string) < 3 or len(generated_string) > 63:
                     continue
                 buckets.add(generated_string)
-    with open('list.txt', 'a') as f:
+                
+    with open(list_file_path, 'a') as f:
         for line in buckets:
             f.write(line + '\n')
+            
     return buckets
 
 
