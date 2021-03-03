@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-import asyncio
+
+import os
+
 import json
-from argparse import ArgumentParser
+import asyncio
 from datetime import datetime
+from argparse import ArgumentParser
 
 import aiohttp
+
+WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def args():
@@ -15,10 +20,6 @@ def args():
                        help='Path to a file containing the DBs names to be checked. One per file')
     parser.add_argument('-o', dest='fn', required=False, default='results.json',
                         help='Output file name. Default: results.json')
-
-    # if len(sys.argv) == 1:
-    #     parser.error("No arguments supplied.")
-    #     sys.exit()
 
     return parser.parse_args()
 
@@ -42,14 +43,17 @@ async def main():
     args_ = args()
     works = []
     loop = asyncio.get_running_loop()
+    
     async with aiohttp.ClientSession(loop=loop) as client:
-        with open(args_.list, 'r') as f:
+        with open(f'{WORKING_DIR}/{args_.list}', 'r') as f:
             for url in f:
                 url = f'https://{url.rstrip()}.firebaseio.com/.json'
                 works.append(asyncio.ensure_future(async_get(client, url.strip())))
+                
         results = await asyncio.gather(*works)
         results = list(filter(None, results))
-        with open(f'{args_.fn}', 'w') as output_file:
+        
+        with open(f'{WORKING_DIR}/{args_.fn}', 'w') as output_file:
             json.dump(results, output_file, indent=2)
 
 
